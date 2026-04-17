@@ -1,4 +1,5 @@
 'use client';
+import { ThemeProvider } from '@/components/atoms/theme-provider';
 import { SessionProvider } from 'next-auth/react';
 
 export default function Providers({
@@ -6,5 +7,16 @@ export default function Providers({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <SessionProvider>{children}</SessionProvider>;
+  return (
+    <SessionProvider>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        {children}
+      </ThemeProvider>
+    </SessionProvider>
+  );
 }
