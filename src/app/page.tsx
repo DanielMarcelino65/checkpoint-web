@@ -1,30 +1,27 @@
 'use client';
-import { Button } from '@/components/ui/button';
-import { SessionProvider, useSession, signOut } from 'next-auth/react';
-import Link from 'next/link';
+import { GameCard } from '@/components/atoms/game-card';
+import { ROCKSTAR_GAMES } from '@/mock/games';
 
 export default function Home() {
-  const { data: session } = useSession();
-
   return (
-    <SessionProvider>
-      <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-        <main className="flex flex-1 w-full flex-col items-center justify-center bg-white dark:bg-black">
-          <div className="flex flex-col bg-primary-foreground items-center p-6 gap-6 rounded-2xl">
-            <h1 className="font-bold text-4xl">Welcome to Checkpoint</h1>
-            {session ? (
-              <>
-                <p>Bem vindo, {session.user?.name}!</p>
-                <Button onClick={() => signOut()}>Sign Out</Button>
-              </>
-            ) : (
-              <Link href="/api/auth/signin">
-                <Button>Sign-In</Button>
-              </Link>
-            )}
+    <main className="flex flex-1 w-full items-center justify-center bg-white dark:bg-black">
+      <div className="flex flex-1 max-w-7xl flex-col items-center justify-center">
+        {ROCKSTAR_GAMES.results.length > 0 && (
+          <div className="mt-10 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {ROCKSTAR_GAMES.results.map((game) => (
+              <GameCard
+                key={game.id}
+                parentPlatforms={game.parent_platforms}
+                coverUrl={game.background_image}
+                name={game.name}
+                likesCount={10}
+                listsCount={120}
+                playedCount={520}
+              />
+            ))}
           </div>
-        </main>
+        )}
       </div>
-    </SessionProvider>
+    </main>
   );
 }

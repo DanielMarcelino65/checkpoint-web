@@ -13,11 +13,13 @@ datasource db {
 }
 
 model User {
-  id           String       @id @default(cuid())
-  name         String?
-  email        String       @unique
-  image        String?
-  createdAt    DateTime     @default(now())
+  id        String   @id @default(cuid())
+  name      String?
+  email     String   @unique
+  image     String?
+  createdAt DateTime @default(now())
+
+  likes        Like[]
   ratings      Rating[]
   gameStatuses GameStatus[]
   lists        UserList[]
@@ -31,9 +33,21 @@ model Game {
   coverUrl  String?
   updatedAt DateTime @updatedAt
 
+  likes        Like[]
   ratings      Rating[]
   gameStatuses GameStatus[]
   listGames    ListGame[]
+}
+
+model Like {
+  userId    String
+  gameId    Int
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@id([userId, gameId])
 }
 
 // Avaliação + Review

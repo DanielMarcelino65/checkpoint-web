@@ -1,4 +1,5 @@
 'use client';
+import Header from '@/components/atoms/header';
 import { ThemeProvider } from '@/components/atoms/theme-provider';
 import { SessionProvider } from 'next-auth/react';
 
@@ -15,6 +16,7 @@ export default function Providers({
         enableSystem
         disableTransitionOnChange
       >
+        <Header />
         {children}
       </ThemeProvider>
     </SessionProvider>
